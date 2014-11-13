@@ -1,0 +1,4 @@
+FK-Automat
+==========
+
+Fahrkartenautomat

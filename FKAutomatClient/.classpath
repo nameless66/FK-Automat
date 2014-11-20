@@ -13,7 +13,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/FKAutomatBeans"/>
-	<classpathentry kind="lib" path="/home/braunmar/Eigene_bins/jboss-as-7.1.1.Final/modules/org/hibernate/main/hibernate-core-4.0.1.Final.jar"/>
-	<classpathentry kind="lib" path="/home/braunmar/Eigene_bins/jboss-as-7.1.1.Final/bin/client/jboss-client.jar"/>
+	<classpathentry kind="lib" path="hibernate-core-4.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="jboss-client.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

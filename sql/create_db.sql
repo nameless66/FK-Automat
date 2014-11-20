@@ -4,3 +4,4 @@
 @Fahrschein.sql
 @Zug.sql
 @Reservierung.sql
+@pk.sql

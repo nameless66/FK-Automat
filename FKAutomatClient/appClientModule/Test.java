@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import model.Kunde;
 import session.*;
 import bean.Department;
 import bean.Employee;
@@ -33,20 +34,30 @@ public class Test {
          InitialContext ctx;
          try {
             ctx = new InitialContext();
-            if (args[0].equals("alleAbteilungen")) {
-               DepartmentManagerInterface manager = (DepartmentManagerInterface) ctx
-                     .lookup("FKAutomatBeans/DepartmentManager!session.DepartmentManagerInterface");
-               for (Department dept : (ArrayList<Department>) manager.list()) 
-                  System.out.println("Test.main:: dept = " + dept);
-               manager.checkout();
-            } else if (args[0].equals("alleMitarbeiter")) {
-               EmployeeManagerInterface manager = (EmployeeManagerInterface) ctx
-                     .lookup("FKAutomatBeans/EmployeeManager!session.EmployeeManagerInterface");
-               for (Employee o : (ArrayList<Employee>) manager.list()) 
-                  System.out.println("Test.main:: o = " + o);
-               manager.checkout();
-            } else
-               usage();
+            
+            Kunde kunde = new Kunde();
+    		kunde.setNachname("x");
+    		kunde.setVorname("y");
+    		
+    		KundeManagerInterface manager = (KundeManagerInterface) ctx.lookup("FKAutomatBeans/KundeManager!session.KundeManagerInterface");
+    		for (Kunde dept : (ArrayList<Kunde>) manager.list()) 
+    			System.out.println("Test.main:: dept = " + dept);
+    		
+            
+//            if (args[0].equals("alleAbteilungen")) {
+//               DepartmentManagerInterface manager = (DepartmentManagerInterface) ctx
+//                     .lookup("FKAutomatBeans/DepartmentManager!session.DepartmentManagerInterface");
+//               for (Department dept : (ArrayList<Department>) manager.list()) 
+//                  System.out.println("Test.main:: dept = " + dept);
+//               manager.checkout();
+//            } else if (args[0].equals("alleMitarbeiter")) {
+//               EmployeeManagerInterface manager = (EmployeeManagerInterface) ctx
+//                     .lookup("FKAutomatBeans/EmployeeManager!session.EmployeeManagerInterface");
+//               for (Employee o : (ArrayList<Employee>) manager.list()) 
+//                  System.out.println("Test.main:: o = " + o);
+//               manager.checkout();
+//            } else
+//               usage();
          } catch (NamingException e) {
             e.printStackTrace();
          }

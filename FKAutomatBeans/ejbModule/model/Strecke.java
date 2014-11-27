@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -11,9 +13,12 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Strecke.findAll", query="SELECT s FROM Strecke s")
+@Table(name = "strecke")
 public class Strecke implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6871452228725721686L;
 
+	@SequenceGenerator(name = "streckeKeyGenerator", sequenceName = "strecke_Seq", initialValue = 1, allocationSize = 50)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "streckeKeyGenerator")
 	@Id
 	private long sid;
 
@@ -27,6 +32,12 @@ public class Strecke implements Serializable {
 
 	public Strecke() {
 	}
+	
+	public Strecke(long sid, String von, String nach) {
+	      this.sid = sid;
+	      this.von = von;
+	      this.nach = nach;
+	   }
 
 	public long getSid() {
 		return this.sid;
@@ -72,6 +83,11 @@ public class Strecke implements Serializable {
 		fahrschein.setStrecke(null);
 
 		return fahrschein;
+	}
+
+	@Override
+	public String toString() {
+		return "Strecke [sid=" + sid + ", nach=" + nach + ", von=" + von + "]";
 	}
 
 }

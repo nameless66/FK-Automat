@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -10,9 +11,12 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Fahrschein.findAll", query="SELECT f FROM Fahrschein f")
+@Table(name = "fahrschein")
 public class Fahrschein implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@SequenceGenerator(name = "fahrscheinKeyGenerator", sequenceName = "fahrschein_seq", initialValue = 1, allocationSize = 50)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fahrscheinKeyGenerator")
 	@Id
 	private long fid;
 
@@ -51,6 +55,12 @@ public class Fahrschein implements Serializable {
 
 	public void setStrecke(Strecke strecke) {
 		this.strecke = strecke;
+	}
+
+	@Override
+	public String toString() {
+		return "Fahrschein [fid=" + fid + ", kunde=" + kunde + ", strecke="
+				+ strecke + "]";
 	}
 
 }

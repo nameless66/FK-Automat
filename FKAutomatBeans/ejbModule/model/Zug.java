@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -11,9 +13,12 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Zug.findAll", query="SELECT z FROM Zug z")
+@Table(name = "zug")
 public class Zug implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@SequenceGenerator(name = "zugKeyGenerator", sequenceName = "zug_seq", initialValue = 1, allocationSize = 50)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zugKeyGenerator")
 	@Id
 	private long zid;
 
@@ -23,6 +28,10 @@ public class Zug implements Serializable {
 
 	public Zug() {
 	}
+	public Zug(long zid) {
+	      this.zid = zid;
+	      
+	   }
 
 	public long getZid() {
 		return this.zid;
@@ -52,6 +61,11 @@ public class Zug implements Serializable {
 		reservierung.setZug(null);
 
 		return reservierung;
+	}
+
+	@Override
+	public String toString() {
+		return "Zug [zid=" + zid + "]";
 	}
 
 }

@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -11,9 +13,12 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Kunde.findAll", query="SELECT k FROM Kunde k")
+@Table(name = "kunde")
 public class Kunde implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@SequenceGenerator(name = "kundeKeyGenerator", sequenceName = "kunde_seq", initialValue = 1, allocationSize = 50)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "kundeKeyGenerator")
 	@Id
 	private long kid;
 
@@ -27,6 +32,12 @@ public class Kunde implements Serializable {
 
 	public Kunde() {
 	}
+	
+	public Kunde(long kid, String vorname, String nachname) {
+	      this.kid = kid;
+	      this.vorname = vorname;
+	      this.nachname = nachname;
+	   }
 
 	public long getKid() {
 		return this.kid;
@@ -72,6 +83,12 @@ public class Kunde implements Serializable {
 		fahrschein.setKunde(null);
 
 		return fahrschein;
+	}
+
+	@Override
+	public String toString() {
+		return "Kunde [kid=" + kid + ", nachname=" + nachname + ", vorname="
+				+ vorname + "]";
 	}
 
 }

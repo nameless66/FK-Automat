@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 
 
@@ -11,9 +13,12 @@ import java.math.BigDecimal;
  */
 @Entity
 @NamedQuery(name="Reservierung.findAll", query="SELECT r FROM Reservierung r")
+@Table(name = "reservierung")
 public class Reservierung implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@SequenceGenerator(name = "reservierungKeyGenerator", sequenceName = "reservierung_seq", initialValue = 1, allocationSize = 50)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservierungKeyGenerator")
 	@Id
 	private long rid;
 
@@ -26,6 +31,12 @@ public class Reservierung implements Serializable {
 
 	public Reservierung() {
 	}
+	
+	public Reservierung(long rid, BigDecimal platz, Zug zug) {
+	      this.rid = rid;
+	      this.platz = platz;
+	      this.zug = zug;
+	   }
 
 	public long getRid() {
 		return this.rid;
@@ -49,6 +60,12 @@ public class Reservierung implements Serializable {
 
 	public void setZug(Zug zug) {
 		this.zug = zug;
+	}
+
+	@Override
+	public String toString() {
+		return "Reservierung [rid=" + rid + ", platz=" + platz + ", zug=" + zug
+				+ "]";
 	}
 
 }

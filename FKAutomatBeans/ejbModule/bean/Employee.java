@@ -9,7 +9,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name = "mitarbeiter")
+@Table(name = "mitarbeiter", schema = "MAUTEMA1")
 public class Employee implements Serializable {
 	private static final long serialVersionUID = 6849024972454221038L;
 

@@ -6,6 +6,11 @@
 		<jta-data-source>java:jboss/datasources/OracleDS</jta-data-source>
 		<class>bean.Department</class>
 		<class>bean.Employee</class>
+		<class>model.Fahrschein</class>
+		<class>model.Kunde</class>
+		<class>model.Reservierung</class>
+		<class>model.Strecke</class>
+		<class>model.Zug</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="none"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>

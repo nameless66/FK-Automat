@@ -69,9 +69,9 @@ public class KundeManager implements java.io.Serializable {
 	}
 	
 public void insert(Kunde k) {
-		Kunde kunde = new Kunde();
-		kunde.setNachname(k.getNachname());
-		kunde.setVorname(k.getVorname());
+//		Kunde kunde = new Kunde();
+//		kunde.setNachname(k.getNachname());
+//		kunde.setVorname(k.getVorname());
 		
 		em.persist(k);
 		em.getTransaction().commit();

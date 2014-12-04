@@ -25,6 +25,7 @@ public class Strecke implements Serializable {
 	private String nach;
 
 	private String von;
+	private int platz;
 
 	//bi-directional many-to-one association to Fahrschein
 	@OneToMany(mappedBy="strecke")
@@ -33,10 +34,11 @@ public class Strecke implements Serializable {
 	public Strecke() {
 	}
 	
-	public Strecke(long sid, String von, String nach) {
+	public Strecke(long sid, String von, String nach, int platz) {
 	      this.sid = sid;
 	      this.von = von;
 	      this.nach = nach;
+	      this.platz = platz;
 	   }
 
 	public long getSid() {
@@ -61,6 +63,14 @@ public class Strecke implements Serializable {
 
 	public void setVon(String von) {
 		this.von = von;
+	}
+	
+	public long getPlatz() {
+		return this.platz;
+	}
+
+	public void setPlatz(int platz) {
+		this.platz = platz;
 	}
 
 	public List<Fahrschein> getFahrscheins() {
@@ -87,7 +97,8 @@ public class Strecke implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Strecke [sid=" + sid + ", nach=" + nach + ", von=" + von + "]";
+		return "Strecke [sid=" + sid + ", nach=" + nach + ", von=" + von
+				+ ", platz=" + platz + ", fahrscheins=" + fahrscheins + "]";
 	}
 
 }

@@ -26,16 +26,16 @@ public class Reservierung implements Serializable {
 
 	//bi-directional many-to-one association to Zug
 	@ManyToOne
-	@JoinColumn(name="ZUG_FK")
-	private Zug zug;
+	@JoinColumn(name="STRECKE_FK")
+	private Strecke strecke;
 
 	public Reservierung() {
 	}
 	
-	public Reservierung(long rid, BigDecimal platz, Zug zug) {
+	public Reservierung(long rid, BigDecimal platz, Strecke strecke) {
 	      this.rid = rid;
-	      this.platz = platz;
-	      this.zug = zug;
+	      
+	      this.strecke = strecke;
 	   }
 
 	public long getRid() {
@@ -46,25 +46,18 @@ public class Reservierung implements Serializable {
 		this.rid = rid;
 	}
 
-	public BigDecimal getPlatz() {
-		return this.platz;
+
+	public Strecke getStrecke() {
+		return this.strecke;
 	}
 
-	public void setPlatz(BigDecimal platz) {
-		this.platz = platz;
-	}
-
-	public Zug getZug() {
-		return this.zug;
-	}
-
-	public void setZug(Zug zug) {
-		this.zug = zug;
+	public void setStrecke(Strecke strecke) {
+		this.strecke = strecke;
 	}
 
 	@Override
 	public String toString() {
-		return "Reservierung [rid=" + rid + ", platz=" + platz + ", zug=" + zug
+		return "Reservierung [rid=" + rid + ", platz=" + platz 
 				+ "]";
 	}
 

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  */
 @Entity
 @NamedQuery(name="Reservierung.findAll", query="SELECT r FROM Reservierung r")
-@Table(name = "reservierung")
+@Table(name = "reservierung", schema = "BAUMGAJA")
 public class Reservierung implements Serializable {
 	private static final long serialVersionUID = 1L;
 

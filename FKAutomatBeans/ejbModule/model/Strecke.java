@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Strecke.findAll", query="SELECT s FROM Strecke s")
-@Table(name = "strecke")
+@Table(name = "strecke", schema = "BAUMGAJA")
 public class Strecke implements Serializable {
 	private static final long serialVersionUID = 6871452228725721686L;
 

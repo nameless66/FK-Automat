@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Fahrschein.findAll", query="SELECT f FROM Fahrschein f")
-@Table(name = "fahrschein")
+@Table(name = "fahrschein", schema = "BAUMGAJA")
 public class Fahrschein implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -65,7 +65,7 @@ public class Strecke implements Serializable {
 		this.von = von;
 	}
 	
-	public long getPlatz() {
+	public int getPlatz() {
 		return this.platz;
 	}
 

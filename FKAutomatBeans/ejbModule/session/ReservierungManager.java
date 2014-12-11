@@ -24,7 +24,7 @@ public class ReservierungManager implements java.io.Serializable {
 	private static final long serialVersionUID = -2900702404043525937L;
 
 	@PersistenceContext(unitName = "tempdb")
-	private EntityManager em;
+	private static EntityManager em;
 	private Reservierung Reservierung;
 
 	public Collection<Reservierung> list() {
@@ -53,6 +53,25 @@ public class ReservierungManager implements java.io.Serializable {
 				.getResultList())
 			ReservierungCollection.add(Reservierung);
 		return ReservierungCollection;
+	}
+	
+	public static void ReservierungPruefen(Reservierung r) {
+		try {
+			long plaetze = StreckeManager.freiePleatze(r.getStrecke().getSid());
+			if (plaetze >= 0){
+				System.out.println("Es sind noch Plaetze fuer diese Fahrt frei");
+				save(r);
+				StreckeManager.Platzabziehen(r.getStrecke().getSid());
+				
+			}
+			else {
+				
+			}
+		} catch (NoSuchStrecke e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void delete(int primaryKey) throws NoSuchReservierung {
@@ -91,7 +110,7 @@ public class ReservierungManager implements java.io.Serializable {
 //		return employeeCollection;
 //	}
 
-	public void save(Reservierung r) {
+	public static void save(Reservierung r) {
 		//
 		// Vorsicht:
 		//
@@ -109,8 +128,10 @@ public class ReservierungManager implements java.io.Serializable {
 		Reservierung Reservierung = em.find(Reservierung.class, r.getRid());
 		if (Reservierung != null) {
 			em.merge(r);
+			System.out.println("Reservierung war erfolgreich");
 		} else
 			em.persist(r);
+		System.out.println("Reservierung war nicht erfolgreich");
 	}
 
 	@Remove

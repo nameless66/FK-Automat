@@ -24,7 +24,7 @@ public class StreckeManager implements java.io.Serializable {
 	private static final long serialVersionUID = -2900702404043525937L;
 
 	@PersistenceContext(unitName = "tempdb")
-	private EntityManager em;
+	private static EntityManager em;
 	private Strecke Strecke;
 
 	public Collection<Strecke> list() {
@@ -36,7 +36,7 @@ public class StreckeManager implements java.io.Serializable {
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NEVER)
-	public Strecke findByPrimaryKey(long primaryKey) throws NoSuchStrecke {
+	public static Strecke findByPrimaryKey(long primaryKey) throws NoSuchStrecke {
 		Strecke Strecke = em.find(Strecke.class, primaryKey);
 		if (Strecke == null)
 			throw new NoSuchStrecke();
@@ -45,15 +45,7 @@ public class StreckeManager implements java.io.Serializable {
 	}
 
 
-//	public Collection<Strecke> findByDescription(String description) {
-//		Query query = em.createNamedQuery("Strecke.findByDescription");
-//		query.setParameter("description", description);
-//		Collection<Strecke> StreckeCollection = new ArrayList<Strecke>();
-//		for (Strecke Strecke : (ArrayList<Strecke>) query
-//				.getResultList())
-//			StreckeCollection.add(Strecke);
-//		return StreckeCollection;
-//	}
+
 
 	public void delete(long primaryKey) throws NoSuchStrecke {
 		Strecke Strecke = em.find(Strecke.class, primaryKey);
@@ -91,6 +83,34 @@ public class StreckeManager implements java.io.Serializable {
 //		return employeeCollection;
 //	}
 
+	public static long freiePleatze(long id) throws NoSuchStrecke {
+		long frei;
+		Strecke Strecke = em.find(Strecke.class, id);
+		if (Strecke == null)
+			throw new NoSuchStrecke();
+		else
+			frei = Strecke.getPlatz();
+		return frei;
+	}
+	
+	public static void Platzabziehen(long id) {
+	try {
+		Strecke s = findByPrimaryKey(id);
+		int platzanzahl = s.getPlatz();
+		platzanzahl = platzanzahl -1;
+		//Query query = em.createQuery("UPDATE STRECKE SET STRECKE.PLATZ =" + platzanzahl + " WHERE SID = " + s.getSid() + ";");
+		s.setPlatz(platzanzahl);
+		System.out.println("Der platz wurde abgezogen!");
+		
+	} catch (NoSuchStrecke e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		
+		
+	}
+	
+	
 	public void save(Strecke s) {
 		//
 		// Vorsicht:

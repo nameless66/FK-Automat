@@ -20,6 +20,7 @@ public interface StreckeManagerInterface {
    public void delete(long primaryKey) throws NoSuchStrecke;
 
    public void save(Strecke s);
+   public int freiePleatze(long id);
 
 
 

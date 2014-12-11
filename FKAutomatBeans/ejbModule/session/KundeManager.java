@@ -42,10 +42,7 @@ public class KundeManager implements java.io.Serializable {
 			return kunde;
 	}
 
-	public Collection<Kunde> findByKid(long id) {
-		return em.createNamedQuery("Kunde.findByKid").setParameter("kid", id)
-				.getResultList();
-	}
+	
 
 	public void delete(long primaryKey) throws NoSuchKunde {
 		Kunde kunde = em.find(Kunde.class, primaryKey);

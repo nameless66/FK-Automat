@@ -37,7 +37,7 @@ public class StreckeManager implements java.io.Serializable {
 		return StreckeCollection;
 	}
 
-	@TransactionAttribute(TransactionAttributeType.NEVER)
+	//@TransactionAttribute(TransactionAttributeType.NEVER)
 	public static Strecke findByPrimaryKey(long primaryKey) throws NoSuchStrecke {
 		Strecke Strecke = em.find(Strecke.class, primaryKey);
 		if (Strecke == null)
@@ -85,15 +85,7 @@ public class StreckeManager implements java.io.Serializable {
 //		return employeeCollection;
 //	}
 
-	public static long freiePleatze(long id) throws NoSuchStrecke {
-		long frei;
-		Strecke Strecke = em.find(Strecke.class, id);
-		if (Strecke == null)
-			throw new NoSuchStrecke();
-		else
-			frei = Strecke.getPlatz();
-		return frei;
-	}
+	
 	
 	public static void Platzabziehen(long id) {
 	try {

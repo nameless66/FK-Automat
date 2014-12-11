@@ -17,7 +17,7 @@ import java.util.List;
 public class Strecke implements Serializable {
 	private static final long serialVersionUID = 6871452228725721686L;
 
-	@SequenceGenerator(name = "streckeKeyGenerator", sequenceName = "strecke_Seq", initialValue = 1, allocationSize = 50)
+	@SequenceGenerator(name = "streckeKeyGenerator", sequenceName = "strecke_Seq",  allocationSize = 50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "streckeKeyGenerator")
 	@Id
 	private long sid;

@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public class Reservierung implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@SequenceGenerator(name = "reservierungKeyGenerator", sequenceName = "reservierung_seq", initialValue = 1, allocationSize = 50)
+	@SequenceGenerator(name = "reservierungKeyGenerator", sequenceName = "reservierung_seq",  allocationSize = 50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservierungKeyGenerator")
 	@Id
 	private long rid;

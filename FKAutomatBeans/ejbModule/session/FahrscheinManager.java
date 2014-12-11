@@ -27,6 +27,7 @@ public class FahrscheinManager implements java.io.Serializable {
 	@PersistenceContext(unitName = "tempdb")
 	private EntityManager em;
 	private Fahrschein Fahrschein;
+	private Collection<Fahrschein> fahrscheinList = new ArrayList<Fahrschein>();
 
 	public Collection<Fahrschein> list() {
 		Query query = em.createQuery("SELECT f FROM Fahrschein f");
@@ -66,31 +67,14 @@ public class FahrscheinManager implements java.io.Serializable {
 	
 
 	public void save(Fahrschein f) {
-		//
-		// Vorsicht:
-		//
-		// EntityTransaction tx = em.getTransaction();
-		// tx.begin();
-		// Fahrschein Fahrschein = em.find(Fahrschein.class, p.getDeptNo());
-		// if (Fahrschein != null) {
-		// em.merge(p);
-		// } else
-		// em.persist(p);
-		// tx.commit();
-		//
-		// ... aus Hibernate-Implementierung wird zu:
-		//
-		Fahrschein Fahrschein = em.find(Fahrschein.class, f.getFid());
-		if (Fahrschein != null) {
-			em.merge(f);
-		} else
-			em.persist(f);
+		
+		fahrscheinList.add(f);
 	}
 
 	@Remove
 	public void checkout() {
-		if (Fahrschein != null)
-			em.persist(Fahrschein);
+		for ( Fahrschein f: fahrscheinList)
+			em.persist(f);
 	}
 
 }

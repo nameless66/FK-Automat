@@ -12,6 +12,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 
+import model.Reservierung;
 import model.Strecke;
 /// muss noch geändert werden
 
@@ -26,6 +27,7 @@ public class StreckeManager implements java.io.Serializable {
 	@PersistenceContext(unitName = "tempdb")
 	private static EntityManager em;
 	private Strecke Strecke;
+	private static Collection<Strecke> streckeList = new ArrayList<Strecke>();
 
 	public Collection<Strecke> list() {
 		Query query = em.createQuery("SELECT s FROM Strecke s");
@@ -111,7 +113,7 @@ public class StreckeManager implements java.io.Serializable {
 	}
 	
 	
-	public void save(Strecke s) {
+	
 		//
 		// Vorsicht:
 		//
@@ -126,17 +128,15 @@ public class StreckeManager implements java.io.Serializable {
 		//
 		// ... aus Hibernate-Implementierung wird zu:
 		//
-		Strecke Strecke = em.find(Strecke.class, s.getSid());
-		if (Strecke != null) {
-			em.merge(s);
-		} else
-			em.persist(s);
-	}
+		public static void save(Strecke s) {
+			
+			streckeList.add(s);
+		}
 
-	@Remove
-	public void checkout() {
-		if (Strecke != null)
-			em.persist(Strecke);
-	}
+		@Remove
+		public void checkout() {
+			for ( Strecke s: streckeList)
+				em.persist(s);
+		}
 
 }

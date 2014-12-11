@@ -15,9 +15,13 @@ import java.util.List;
 @NamedQuery(name="Kunde.findAll", query="SELECT k FROM Kunde k")
 @Table(name = "kunde", schema = "BAUMGAJA")
 public class Kunde implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@SequenceGenerator(name = "kundeKeyGenerator", sequenceName = "kunde_seq", initialValue = 1, allocationSize = 50)
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 70051266319970637L;
+
+	@SequenceGenerator(name = "kundeKeyGenerator", sequenceName = "kunde_seq", allocationSize = 50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "kundeKeyGenerator")
 	@Id
 	private long kid;

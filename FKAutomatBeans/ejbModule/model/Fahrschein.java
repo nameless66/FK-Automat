@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Fahrschein implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@SequenceGenerator(name = "fahrscheinKeyGenerator", sequenceName = "fahrschein_seq", initialValue = 1, allocationSize = 50)
+	@SequenceGenerator(name = "fahrscheinKeyGenerator", sequenceName = "fahrschein_seq",  allocationSize = 50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fahrscheinKeyGenerator")
 	@Id
 	private long fid;

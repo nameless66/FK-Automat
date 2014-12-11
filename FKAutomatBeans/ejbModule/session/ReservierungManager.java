@@ -12,6 +12,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 
+import model.Fahrschein;
 import model.Reservierung;
 
 
@@ -26,6 +27,7 @@ public class ReservierungManager implements java.io.Serializable {
 	@PersistenceContext(unitName = "tempdb")
 	private static EntityManager em;
 	private Reservierung Reservierung;
+	private static Collection<Reservierung> reservierungList = new ArrayList<Reservierung>();
 
 	public Collection<Reservierung> list() {
 		Query query = em.createQuery("SELECT r FROM Reservierung r");
@@ -45,15 +47,7 @@ public class ReservierungManager implements java.io.Serializable {
 	}
 
 
-	public Collection<Reservierung> findByDescription(String description) {
-		Query query = em.createNamedQuery("Reservierung.findByDescription");
-		query.setParameter("description", description);
-		Collection<Reservierung> ReservierungCollection = new ArrayList<Reservierung>();
-		for (Reservierung Reservierung : (ArrayList<Reservierung>) query
-				.getResultList())
-			ReservierungCollection.add(Reservierung);
-		return ReservierungCollection;
-	}
+	
 	
 	public static void ReservierungPruefen(Reservierung r) {
 		try {
@@ -110,7 +104,7 @@ public class ReservierungManager implements java.io.Serializable {
 //		return employeeCollection;
 //	}
 
-	public static void save(Reservierung r) {
+
 		//
 		// Vorsicht:
 		//
@@ -125,19 +119,17 @@ public class ReservierungManager implements java.io.Serializable {
 		//
 		// ... aus Hibernate-Implementierung wird zu:
 		//
-		Reservierung Reservierung = em.find(Reservierung.class, r.getRid());
-		if (Reservierung != null) {
-			em.merge(r);
-			System.out.println("Reservierung war erfolgreich");
-		} else
-			em.persist(r);
-		System.out.println("Reservierung war nicht erfolgreich");
+public static void save(Reservierung r) {
+		
+		reservierungList.add(r);
 	}
 
 	@Remove
 	public void checkout() {
-		if (Reservierung != null)
-			em.persist(Reservierung);
-	}
+		for ( Reservierung r: reservierungList)
+			em.persist(r);
+	}	
+
+	
 
 }

@@ -17,7 +17,6 @@ import model.Kunde;
 
 import session.NoSuchKunde;
 
-
 @Stateful
 @Remote(KundeManagerInterface.class)
 // Die nachfolgende Injizierung des Transaktionsmanagements kann weggelassen
@@ -27,21 +26,12 @@ public class KundeManager implements java.io.Serializable {
 	private static final long serialVersionUID = -3924792265192263673L;
 
 	@PersistenceContext(unitName = "tempdb")
-	private EntityManager em;
+	private static EntityManager em;
 	private Kunde kunde;
+	private Collection<Kunde> kundeList = new ArrayList<Kunde>();
 
 	public Collection<Kunde> list() {
 		return em.createQuery("SELECT k FROM Kunde k").getResultList();
-	}
-
-	// Hier eine Variante der Methode "list", die jede Instanz aus der Datenbank
-	// liest - unabhaengig davon, ob bereits zuvor schon Instanzen eingelesen
-	// wurden!
-	public Collection<Kunde> listRefresh() {
-		Query query = em.createQuery("SELECT k FROM Kunde k");
-		for (Kunde kunde : (Collection<Kunde>) query.getResultList())
-			em.refresh(kunde);
-		return query.getResultList();
 	}
 
 	public Kunde findByPrimaryKey(long primaryKey) throws NoSuchKunde {
@@ -53,12 +43,9 @@ public class KundeManager implements java.io.Serializable {
 	}
 
 	public Collection<Kunde> findByKid(long id) {
-		return em.createNamedQuery("Kunde.findByKid")
-				.setParameter("kid", id).getResultList();
+		return em.createNamedQuery("Kunde.findByKid").setParameter("kid", id)
+				.getResultList();
 	}
-
-	
-	
 
 	public void delete(long primaryKey) throws NoSuchKunde {
 		Kunde kunde = em.find(Kunde.class, primaryKey);
@@ -67,23 +54,19 @@ public class KundeManager implements java.io.Serializable {
 		else
 			throw new NoSuchKunde();
 	}
-	
-public void insert(Kunde k) {
-//		Kunde kunde = new Kunde();
-//		kunde.setNachname(k.getNachname());
-//		kunde.setVorname(k.getVorname());
+
+	public void insert(Kunde k) {
+//		em.flush();
+//		em.persist(kunde);
+		kundeList.add(k);
 		
-		em.persist(k);
-		em.getTransaction().commit();
 	}
-	
-	
 
 	// Anstelle von "close()" implementiert:
 	//
 	@Remove
 	public void checkout() {
-		if (kunde != null)
-			em.persist(kunde);
+		for ( Kunde k: kundeList)
+			em.persist(k);
 	}
 }

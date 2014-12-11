@@ -11,15 +11,15 @@ import model.Strecke;
 @Remote
 public interface StreckeManagerInterface {
 
-   public Collection<Reservierung> list();
+   public Collection<Strecke> list();
 
-   public Reservierung findByPrimaryKey(int primaryKey) throws NoSuchReservierung;
+   public Strecke findByPrimaryKey(long primaryKey) throws NoSuchStrecke;
 
-   public Collection<Reservierung> findByDescription(String description);
+   //public Collection<Reservierung> findByDescription(String description);
 
-   public void delete(int primaryKey) throws NoSuchReservierung;
+   public void delete(long primaryKey) throws NoSuchStrecke;
 
-   public void save(Reservierung p);
+   public void save(Strecke s);
 
 
 

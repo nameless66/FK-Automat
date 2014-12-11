@@ -12,11 +12,11 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 
-import model.Reservierung;
+import model.Strecke;
 /// muss noch geändert werden
 
 @Stateful
-@Remote(ReservierungManagerInterface.class)
+@Remote(StreckeManagerInterface.class)
 // Die nachfolgende Injizierung des Transaktionsmanagements kann weggelassen
 // werden, da der Wert "Container" den Default-Einstellung darstellt!
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -25,42 +25,42 @@ public class StreckeManager implements java.io.Serializable {
 
 	@PersistenceContext(unitName = "tempdb")
 	private EntityManager em;
-	private Reservierung Reservierung;
+	private Strecke Strecke;
 
-	public Collection<Reservierung> list() {
-		Query query = em.createQuery("SELECT r FROM Reservierung r");
-		Collection<Reservierung> ReservierungCollection = new ArrayList<Reservierung>();
-		for (Reservierung Reservierung : (ArrayList<Reservierung>) query.getResultList()) 
-			ReservierungCollection.add(Reservierung);
-		return ReservierungCollection;
+	public Collection<Strecke> list() {
+		Query query = em.createQuery("SELECT s FROM Strecke s");
+		Collection<Strecke> StreckeCollection = new ArrayList<Strecke>();
+		for (Strecke Strecke : (ArrayList<Strecke>) query.getResultList()) 
+			StreckeCollection.add(Strecke);
+		return StreckeCollection;
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NEVER)
-	public Reservierung findByPrimaryKey(long primaryKey) throws NoSuchReservierung {
-		Reservierung Reservierung = em.find(Reservierung.class, primaryKey);
-		if (Reservierung == null)
-			throw new NoSuchReservierung();
+	public Strecke findByPrimaryKey(long primaryKey) throws NoSuchStrecke {
+		Strecke Strecke = em.find(Strecke.class, primaryKey);
+		if (Strecke == null)
+			throw new NoSuchStrecke();
 		else
-			return Reservierung;
+			return Strecke;
 	}
 
 
-	public Collection<Reservierung> findByDescription(String description) {
-		Query query = em.createNamedQuery("Reservierung.findByDescription");
-		query.setParameter("description", description);
-		Collection<Reservierung> ReservierungCollection = new ArrayList<Reservierung>();
-		for (Reservierung Reservierung : (ArrayList<Reservierung>) query
-				.getResultList())
-			ReservierungCollection.add(Reservierung);
-		return ReservierungCollection;
-	}
+//	public Collection<Strecke> findByDescription(String description) {
+//		Query query = em.createNamedQuery("Strecke.findByDescription");
+//		query.setParameter("description", description);
+//		Collection<Strecke> StreckeCollection = new ArrayList<Strecke>();
+//		for (Strecke Strecke : (ArrayList<Strecke>) query
+//				.getResultList())
+//			StreckeCollection.add(Strecke);
+//		return StreckeCollection;
+//	}
 
-	public void delete(int primaryKey) throws NoSuchReservierung {
-		Reservierung Reservierung = em.find(Reservierung.class, primaryKey);
-		if (Reservierung != null)
-			em.remove(Reservierung);
+	public void delete(long primaryKey) throws NoSuchStrecke {
+		Strecke Strecke = em.find(Strecke.class, primaryKey);
+		if (Strecke != null)
+			em.remove(Strecke);
 		else
-			throw new NoSuchReservierung();
+			throw new NoSuchStrecke();
 	}
 
 	// Bemerkung:
@@ -70,7 +70,7 @@ public class StreckeManager implements java.io.Serializable {
 	// und
 	// deshalb die Exception mit Fehlermeldung ...
 	// "org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags"
-	// ... produziert (siehe auch Bean "Reservierung").
+	// ... produziert (siehe auch Bean "Strecke").
 	// Deshalb muss man sich dazu entscheiden, eine (oder mehrere) Beziehungen
 	// von "EAGER" auf "LAZY"
 	// zu vereinbaren (Vorsicht: der FetchType von OneToMany ist per Default auf
@@ -81,9 +81,9 @@ public class StreckeManager implements java.io.Serializable {
 	// beispielsweise eben
 	// wie folgt:
 	//
-//	public Collection<Employee> getEmployees(Reservierung dept) {
+//	public Collection<Employee> getEmployees(Strecke dept) {
 //		Query query = em
-//				.createQuery("SELECT e FROM Employee e WHERE e.Reservierung = "
+//				.createQuery("SELECT e FROM Employee e WHERE e.Strecke = "
 //						+ dept.getAbtnr());
 //		Collection<Employee> employeeCollection = new ArrayList<Employee>();
 //		for (Employee employee : (ArrayList<Employee>) query.getResultList())
@@ -91,14 +91,14 @@ public class StreckeManager implements java.io.Serializable {
 //		return employeeCollection;
 //	}
 
-	public void save(Reservierung r) {
+	public void save(Strecke s) {
 		//
 		// Vorsicht:
 		//
 		// EntityTransaction tx = em.getTransaction();
 		// tx.begin();
-		// Reservierung Reservierung = em.find(Reservierung.class, p.getDeptNo());
-		// if (Reservierung != null) {
+		// Strecke Strecke = em.find(Strecke.class, p.getDeptNo());
+		// if (Strecke != null) {
 		// em.merge(p);
 		// } else
 		// em.persist(p);
@@ -106,17 +106,17 @@ public class StreckeManager implements java.io.Serializable {
 		//
 		// ... aus Hibernate-Implementierung wird zu:
 		//
-		Reservierung Reservierung = em.find(Reservierung.class, r.getRid());
-		if (Reservierung != null) {
-			em.merge(r);
+		Strecke Strecke = em.find(Strecke.class, s.getSid());
+		if (Strecke != null) {
+			em.merge(s);
 		} else
-			em.persist(r);
+			em.persist(s);
 	}
 
 	@Remove
 	public void checkout() {
-		if (Reservierung != null)
-			em.persist(Reservierung);
+		if (Strecke != null)
+			em.persist(Strecke);
 	}
 
 }

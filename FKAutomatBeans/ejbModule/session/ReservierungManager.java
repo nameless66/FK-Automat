@@ -49,22 +49,13 @@ public class ReservierungManager implements java.io.Serializable {
 
 	
 	
-	public static void ReservierungPruefen(Reservierung r) {
-		try {
-			long plaetze = StreckeManager.freiePleatze(r.getStrecke().getSid());
-			if (plaetze >= 0){
-				System.out.println("Es sind noch Plaetze fuer diese Fahrt frei");
+	public static void ReservierungEinpflegen(Reservierung r) {
+			
 				save(r);
 				StreckeManager.Platzabziehen(r.getStrecke().getSid());
 				
-			}
-			else {
-				
-			}
-		} catch (NoSuchStrecke e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
+		
 		
 	}
 

@@ -13,7 +13,7 @@ public interface ReservierungManagerInterface {
 
    public Collection<Reservierung> list();
 
-   public Reservierung findByPrimaryKey(int primaryKey) throws NoSuchReservierung;
+   public Reservierung findByPrimaryKey(int primaryKey);
 
    public Collection<Reservierung> findByDescription(String description);
 
@@ -21,7 +21,7 @@ public interface ReservierungManagerInterface {
 
    public void save(Reservierung p);
 
-
+   public  void ReservierungEinpflegen(Reservierung r);
 
    @Remove
    void checkout();

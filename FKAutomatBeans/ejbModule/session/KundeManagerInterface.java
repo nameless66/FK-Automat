@@ -11,7 +11,7 @@ import model.Kunde;
 public interface KundeManagerInterface {
 
 	public Collection<Kunde> list();
-
+    public Kunde findByPrimaryKey(long primaryKey);
 	public Collection<Kunde> findByKid(long id);
 
 	public void delete(long primaryKey) throws NoSuchKunde;

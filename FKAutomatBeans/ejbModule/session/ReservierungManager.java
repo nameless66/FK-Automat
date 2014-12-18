@@ -12,9 +12,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 
-import model.Fahrschein;
 import model.Reservierung;
-
 
 @Stateful
 @Remote(ReservierungManagerInterface.class)
@@ -26,19 +24,19 @@ public class ReservierungManager implements java.io.Serializable {
 
 	@PersistenceContext(unitName = "tempdb")
 	private static EntityManager em;
-	private Reservierung Reservierung;
-	private static Collection<Reservierung> reservierungList = new ArrayList<Reservierung>();
 
 	public Collection<Reservierung> list() {
 		Query query = em.createQuery("SELECT r FROM Reservierung r");
 		Collection<Reservierung> ReservierungCollection = new ArrayList<Reservierung>();
-		for (Reservierung Reservierung : (ArrayList<Reservierung>) query.getResultList()) 
+		for (Reservierung Reservierung : (ArrayList<Reservierung>) query
+				.getResultList())
 			ReservierungCollection.add(Reservierung);
 		return ReservierungCollection;
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NEVER)
-	public Reservierung findByPrimaryKey(long primaryKey) throws NoSuchReservierung {
+	public Reservierung findByPrimaryKey(long primaryKey)
+			throws NoSuchReservierung {
 		Reservierung Reservierung = em.find(Reservierung.class, primaryKey);
 		if (Reservierung == null)
 			throw new NoSuchReservierung();
@@ -46,17 +44,9 @@ public class ReservierungManager implements java.io.Serializable {
 			return Reservierung;
 	}
 
-
-	
-	
-	public static void ReservierungEinpflegen(Reservierung r) {
-			
-				save(r);
-				StreckeManager.Platzabziehen(r.getStrecke().getSid());
-				
-			
-		
-		
+	public static void reservierungEinpflegen(Reservierung r) {
+		em.persist(r);
+		StreckeManager.Platzabziehen(r.getStrecke().getSid());
 	}
 
 	public void delete(int primaryKey) throws NoSuchReservierung {
@@ -67,60 +57,8 @@ public class ReservierungManager implements java.io.Serializable {
 			throw new NoSuchReservierung();
 	}
 
-	// Bemerkung:
-	// Der nachfolgend implementierte Umweg ist "nur" deshalb noetig, weil
-	// "JBoss"
-	// nicht in der Lage ist, mehrere Beziehungen des Typs "EAGER" aufzubauen
-	// und
-	// deshalb die Exception mit Fehlermeldung ...
-	// "org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags"
-	// ... produziert (siehe auch Bean "Reservierung").
-	// Deshalb muss man sich dazu entscheiden, eine (oder mehrere) Beziehungen
-	// von "EAGER" auf "LAZY"
-	// zu vereinbaren (Vorsicht: der FetchType von OneToMany ist per Default auf
-	// "EAGER" gesetzt!).
-	// Dies zieht dann nachfolgende Implementierung nach sich, die anstelle der
-	// automatisch bei EAGER
-	// erfolgenden Datenbereitstellung explizit "ausprogrammiert" werden muss,
-	// beispielsweise eben
-	// wie folgt:
-	//
-//	public Collection<Employee> getEmployees(Reservierung dept) {
-//		Query query = em
-//				.createQuery("SELECT e FROM Employee e WHERE e.Reservierung = "
-//						+ dept.getAbtnr());
-//		Collection<Employee> employeeCollection = new ArrayList<Employee>();
-//		for (Employee employee : (ArrayList<Employee>) query.getResultList())
-//			employeeCollection.add(employee);
-//		return employeeCollection;
-//	}
-
-
-		//
-		// Vorsicht:
-		//
-		// EntityTransaction tx = em.getTransaction();
-		// tx.begin();
-		// Reservierung Reservierung = em.find(Reservierung.class, p.getDeptNo());
-		// if (Reservierung != null) {
-		// em.merge(p);
-		// } else
-		// em.persist(p);
-		// tx.commit();
-		//
-		// ... aus Hibernate-Implementierung wird zu:
-		//
-public static void save(Reservierung r) {
-		
-		reservierungList.add(r);
-	}
-
 	@Remove
 	public void checkout() {
-		for ( Reservierung r: reservierungList)
-			em.persist(r);
-	}	
-
-	
+	}
 
 }

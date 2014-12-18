@@ -20,7 +20,7 @@ public interface FahrscheinManagerInterface {
 
    public void delete(int primaryKey) throws NoSuchFahrschein;
 
-   public void save(Fahrschein f);
+   public void saveFahrschein(Fahrschein f);
 
    public Collection<Kunde> getKundes(Fahrschein fahr);
 

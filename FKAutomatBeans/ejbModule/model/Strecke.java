@@ -6,18 +6,17 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the STRECKE database table.
  * 
  */
 @Entity
-@NamedQuery(name="Strecke.findAll", query="SELECT s FROM Strecke s")
+@NamedQuery(name = "Strecke.findAll", query = "SELECT s FROM Strecke s")
 @Table(name = "strecke", schema = "BAUMGAJA")
 public class Strecke implements Serializable {
 	private static final long serialVersionUID = 6871452228725721686L;
 
-	@SequenceGenerator(name = "streckeKeyGenerator", sequenceName = "strecke_Seq",  allocationSize = 50)
+	@SequenceGenerator(name = "streckeKeyGenerator", sequenceName = "strecke_Seq", allocationSize = 50)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "streckeKeyGenerator")
 	@Id
 	private long sid;
@@ -27,19 +26,19 @@ public class Strecke implements Serializable {
 	private String von;
 	private int platz;
 
-	//bi-directional many-to-one association to Fahrschein
-	@OneToMany(mappedBy="strecke")
+	// bi-directional many-to-one association to Fahrschein
+	@OneToMany(mappedBy = "strecke")
 	private List<Fahrschein> fahrscheins;
 
 	public Strecke() {
 	}
-	
+
 	public Strecke(long sid, String von, String nach, int platz) {
-	      this.sid = sid;
-	      this.von = von;
-	      this.nach = nach;
-	      this.platz = platz;
-	   }
+		this.sid = sid;
+		this.von = von;
+		this.nach = nach;
+		this.platz = platz;
+	}
 
 	public long getSid() {
 		return this.sid;
@@ -64,7 +63,7 @@ public class Strecke implements Serializable {
 	public void setVon(String von) {
 		this.von = von;
 	}
-	
+
 	public int getPlatz() {
 		return this.platz;
 	}
@@ -98,7 +97,7 @@ public class Strecke implements Serializable {
 	@Override
 	public String toString() {
 		return "Strecke [sid=" + sid + ", nach=" + nach + ", von=" + von
-				+ ", platz=" + platz + ", fahrscheins=" + fahrscheins + "]";
+				+ ", platz=" + platz + "]";
 	}
 
 }

@@ -21,7 +21,7 @@ public interface ReservierungManagerInterface {
 
    public void save(Reservierung p);
 
-   public  void ReservierungEinpflegen(Reservierung r);
+   public  void reservierungEinpflegen(Reservierung r);
 
    @Remove
    void checkout();

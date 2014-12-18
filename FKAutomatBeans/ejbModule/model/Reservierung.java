@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Reservierung implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@SequenceGenerator(name = "reservierungKeyGenerator", sequenceName = "reservierung_seq", allocationSize = 50)
+	@SequenceGenerator(name = "reservierungKeyGenerator", sequenceName = "reservierung_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservierungKeyGenerator")
 	@Id
 	private long rid;

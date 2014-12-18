@@ -4,6 +4,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import model.Kunde;
+import model.Reservierung;
+import model.Strecke;
 import session.*;
 
 public class GP_Fahrkarte {
@@ -13,20 +15,12 @@ public class GP_Fahrkarte {
    }
 
    public static void main(String args[]) {
-      // Bemerkung:
-      // Wenn ein Client-Programm mit Main-Argumenten via Ant gestartet werden
-      // soll, so muss dies ueber den Zugriff auf "System-Properties"
-      // erfolgen.
-      // Anstelle des String-Arrays "args" treten also "getProperty"-Aufrufe.
-      // Die nachfolgenden Zeilen sind in diesem Fall zu "aktivieren"!
-
-//      args = new String[8];
-//      for (int i = 0; i < args.length; i++)
-//         System.out.println("Test.main:: prop" + i + " = " + System.getProperty("prop" + i));
-//      for (int i = 0; i < args.length; i++)
-//         args[i] = System.getProperty("prop" + i);
-//
-      if (args.length < 1)
+      //GP
+	   //Kunde meldet sich an
+	   //Kunde wählt Strecke
+	   //Kunde will reservieren
+	   //Fahrschien wird gespeichter und ausgegeben
+      if (args.length < -1)
          usage();
       else {
          InitialContext ctx;
@@ -37,12 +31,34 @@ public class GP_Fahrkarte {
     		kunde.setNachname("x");
     		kunde.setVorname("y");
     		
-    		KundeManagerInterface manager = (KundeManagerInterface) ctx.lookup("FKAutomatBeans/KundeManager!session.KundeManagerInterface");
-    		 		
+    		KundeManagerInterface kmanager = (KundeManagerInterface) ctx.lookup("FKAutomatBeans/KundeManager!session.KundeManagerInterface");
+    		StreckeManagerInterface smanager = (StreckeManagerInterface) ctx.lookup("FKAutomatBeans/StreckeManager!session.StreckeManagerInterface");
+    		ReservierungManagerInterface rmanager = (ReservierungManagerInterface) ctx.lookup("FKAutomatBeans/ReservierungManager!session.ReservierungManagerInterface");
+    		FahrscheinManagerInterface fmanager = (FahrscheinManagerInterface) ctx.lookup("FKAutomatBeans/FahrscheinManager!session.FahrscheinManagerInterface");
     		
-    		for (Kunde dept : (ArrayList<Kunde>) manager.list()) 
-    			System.out.println("Test.main:: dept = " + dept);
-    		
+    		System.out.println("Bitte loggen sie sich mit ihrer Kundennummer ein!");
+    		long primaryKey = 952;		
+    		Kunde kundex = kmanager.findByPrimaryKey(primaryKey);
+    	    System.out.println("Der Kunde " +kundex.getVorname() + " " + kundex.getNachname() + " mit der Nummer " + kundex.getKid() + " ist eingeloggt");
+    	    System.out.println("Bitte geben sie an welche Strecke sie fahren möchten!");
+    	    long streckekey = 2;
+    	    Strecke streckex = smanager.findByPrimaryKey(streckekey);
+    	    System.out.println("Sie haben die Strecke von:" + streckex.getVon() + " Nach: " + streckex.getNach() + " ausgewählt");
+    	    System.out.println("Bitte warten sie einen Moment es wird geprüft ob noch Plätze vorhanden sind");
+    	       	    
+    	    if (streckex.getPlatz() > 0) {
+    	    	System.out.println("Es sind noch " +streckex.getPlatz() + " Plaetze verfuegbar");
+    	    	Reservierung neueReservierung = new Reservierung();
+    	    	neueReservierung.setStrecke(streckex);
+    	    	rmanager.ReservierungEinpflegen(neueReservierung);
+    	    	rmanager.checkout();
+    	    	System.out.println("Vielen Dank fuer ihre Buchung");
+    	    }
+    	    else {
+    	    	System.out.println("Es tut uns leid es sind keine Plaetze verfuegbar");
+    	    }
+    	   
+    	    
             
 //            if (args[0].equals("alleAbteilungen")) {
 //               DepartmentManagerInterface manager = (DepartmentManagerInterface) ctx
@@ -60,7 +76,10 @@ public class GP_Fahrkarte {
 //               usage();
          } catch (NamingException e) {
             e.printStackTrace();
-         }
+         } catch (NoSuchStrecke e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
       }
    }
 }

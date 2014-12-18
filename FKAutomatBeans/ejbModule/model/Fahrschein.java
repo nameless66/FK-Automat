@@ -32,6 +32,11 @@ public class Fahrschein implements Serializable {
 
 	public Fahrschein() {
 	}
+	
+	public Fahrschein(Strecke s, Kunde k) {
+		this.strecke = s;
+		this.kunde =k;
+	}
 
 	public long getFid() {
 		return this.fid;

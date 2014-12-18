@@ -192,13 +192,14 @@ public class GP_Fahrkarte {
 			neueReservierung.setStrecke(streckex);
 			rmanager.reservierungEinpflegen(neueReservierung);
 			
-			Fahrschein fahrschein = new Fahrschein();
-			fahrschein.setKunde(kundex);
-			fahrschein.setStrecke(streckex);
-			fmanager.saveFahrschein(fahrschein);
-			fmanager.checkout();
+//			Fahrschein fahrschein = new Fahrschein();
+//			fahrschein.setKunde(kundex);
+//			fahrschein.setStrecke(streckex);
+//			fmanager.saveFahrschein(fahrschein);
+//			fmanager.checkout();
 			rmanager.checkout();
 			smanager.checkout();
+			statusTextField.setText("Hier ihr Fahrschein!");
 		} else {
 			statementLabel.setText("Es tut uns leid es sind keine Plaetze verfuegbar");
 		}

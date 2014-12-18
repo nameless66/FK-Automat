@@ -66,15 +66,14 @@ public class FahrscheinManager implements java.io.Serializable {
 
 	
 
-	public void save(Fahrschein f) {
+	public void saveFahrschein(Fahrschein f) {
 		
-		fahrscheinList.add(f);
+		em.persist(f);
 	}
 
 	@Remove
 	public void checkout() {
-		for ( Fahrschein f: fahrscheinList)
-			em.persist(f);
+		
 	}
 
 }

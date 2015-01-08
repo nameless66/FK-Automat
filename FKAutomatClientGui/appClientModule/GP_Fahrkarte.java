@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -21,6 +23,7 @@ public class GP_Fahrkarte {
 	protected static Kunde kundex;
 	// Frame
 	private static JFrame theFrame = new JFrame(" Fahrkartenreservierung");
+	
 
 	// JPanels
 	private static JPanel inputPanel = new JPanel();
@@ -78,6 +81,15 @@ public class GP_Fahrkarte {
 		outputPanel.setLayout(new FlowLayout());
 		actionPanel.setLayout(new FlowLayout());
 		statusPanel.setLayout(new FlowLayout());
+		theFrame.setBackground(Color.magenta);
+		inputPanel.setBackground(Color.magenta);
+		inputPanel2.setBackground(Color.magenta);
+		outputPanel.setBackground(Color.magenta);
+		actionPanel.setBackground(Color.magenta);
+		statusPanel.setBackground(Color.magenta);
+		statementPanel.setBackground(Color.magenta);
+		
+		
 		
 		// Addiere Komponenten auf statementPanel
 		statementPanel.add(statementLabel);
@@ -100,6 +112,7 @@ public class GP_Fahrkarte {
 		inputPanel2.add(streckeNachLabel);
 		inputPanel2.add(nachTextField);
 		nachTextField.setEditable(false);
+	
 
 		// Addiere Komponenten auf actionPanel
 		actionPanel.add(loginButton);
@@ -108,7 +121,16 @@ public class GP_Fahrkarte {
 		selectButton.setVisible(false);
 		submitButton.setVisible(false);
 		
+		loginButton.setBackground(Color.green);
+		selectButton.setBackground(Color.green);
+		submitButton.setBackground(Color.green);
 		
+		streckeIdTextField.setBackground(Color.cyan);
+		vonTextField.setBackground(Color.cyan);
+		nachTextField.setBackground(Color.cyan);
+		kundeVornameTextField.setBackground(Color.cyan);
+		kundeNachnameTextField.setBackground(Color.cyan);
+		kundeIdTextField.setBackground(Color.cyan);
 		
 		
 		// Addiere Komponenten auf statusPanel
@@ -155,7 +177,7 @@ public class GP_Fahrkarte {
 	
 
 	private static void kundeEinloggen() {
-		
+		theFrame.setCursor(Cursor.WAIT_CURSOR);
 		Long kundeID = Long.valueOf(kundeIdTextField.getText());
 		System.out.println(kmanager);
 		
@@ -164,9 +186,11 @@ public class GP_Fahrkarte {
 		kundeVornameTextField.setText(kundex.getVorname());		
 		statementLabel.setText("Bitte geben sie an welche Strecke sie fahren möchten!");
 		selectButton.setVisible(true);
+		theFrame.setCursor(Cursor.getDefaultCursor());
 		
 	}
 	public static void streckeAusgeben() {
+		theFrame.setCursor(Cursor.WAIT_CURSOR);
 		Long streckeID = Long.valueOf(streckeIdTextField.getText());
 		
 		try {
@@ -180,11 +204,12 @@ public class GP_Fahrkarte {
 			e.printStackTrace();
 		}
 		
-		
+		theFrame.setCursor(Cursor.getDefaultCursor());
 		
 	}
 	
 	private static void fahrkarteAusgeben(){
+		theFrame.setCursor(Cursor.WAIT_CURSOR);
 		if (streckex.getPlatz() > 0) {
 			statementLabel.setText("Es sind noch " + streckex.getPlatz()
 					+ " Plaetze verfuegbar");
@@ -197,12 +222,13 @@ public class GP_Fahrkarte {
 //			fahrschein.setStrecke(streckex);
 //			fmanager.saveFahrschein(fahrschein);
 //			fmanager.checkout();
-			rmanager.checkout();
+			rmanager.checkout();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 			smanager.checkout();
 			statusTextField.setText("Hier ihr Fahrschein!");
 		} else {
 			statementLabel.setText("Es tut uns leid es sind keine Plaetze verfuegbar");
 		}
+		theFrame.setCursor(Cursor.getDefaultCursor());
 	}
 	
 	private static void connect2JBoss() {

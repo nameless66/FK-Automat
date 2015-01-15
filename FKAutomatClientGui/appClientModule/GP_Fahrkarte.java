@@ -11,19 +11,19 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.*;
 
-import model.Fahrschein;
+//import model.Fahrschein;
 import model.Kunde;
 import model.Reservierung;
 import model.Strecke;
 import session.*;
 
 public class GP_Fahrkarte {
-	
+
 	protected static Strecke streckex;
 	protected static Kunde kundex;
 	// Frame
 	private static JFrame theFrame = new JFrame(" Fahrkartenreservierung");
-	
+
 
 	// JPanels
 	private static JPanel inputPanel = new JPanel();
@@ -65,11 +65,11 @@ public class GP_Fahrkarte {
 	private static KundeManagerInterface kmanager;
 	private static StreckeManagerInterface smanager;
 	private static ReservierungManagerInterface rmanager;
-	private static FahrscheinManagerInterface fmanager;
+//	private static FahrscheinManagerInterface fmanager;
 
 	public static void main(String args[]) {
+		connect2JBoss();
 		buildTheFrame();
-		// connect2JBoss();
 	}
 
 	private static void buildTheFrame() {
@@ -88,9 +88,9 @@ public class GP_Fahrkarte {
 		actionPanel.setBackground(Color.magenta);
 		statusPanel.setBackground(Color.magenta);
 		statementPanel.setBackground(Color.magenta);
-		
-		
-		
+
+
+
 		// Addiere Komponenten auf statementPanel
 		statementPanel.add(statementLabel);
 
@@ -103,7 +103,7 @@ public class GP_Fahrkarte {
 		inputPanel.add(kundeVornameLabel);
 		inputPanel.add(kundeVornameTextField);
 		kundeVornameTextField.setEditable(false);
-		
+
 		inputPanel2.add(streckeIdLabel);
 		inputPanel2.add(streckeIdTextField);
 		inputPanel2.add(streckeVonLabel);
@@ -112,7 +112,7 @@ public class GP_Fahrkarte {
 		inputPanel2.add(streckeNachLabel);
 		inputPanel2.add(nachTextField);
 		nachTextField.setEditable(false);
-	
+
 
 		// Addiere Komponenten auf actionPanel
 		actionPanel.add(loginButton);
@@ -120,24 +120,24 @@ public class GP_Fahrkarte {
 		actionPanel.add(submitButton);
 		selectButton.setVisible(false);
 		submitButton.setVisible(false);
-		
+
 		loginButton.setBackground(Color.green);
 		selectButton.setBackground(Color.green);
 		submitButton.setBackground(Color.green);
-		
+
 		streckeIdTextField.setBackground(Color.cyan);
 		vonTextField.setBackground(Color.cyan);
 		nachTextField.setBackground(Color.cyan);
 		kundeVornameTextField.setBackground(Color.cyan);
 		kundeNachnameTextField.setBackground(Color.cyan);
 		kundeIdTextField.setBackground(Color.cyan);
-		
-		
+
+
 		// Addiere Komponenten auf statusPanel
 		statusPanel.add(statusLabel);
 		statusPanel.add(statusTextField);
 		statusTextField.setEditable(false);
-		
+
 		// Addiere Komponenten auf Frame
 		theFrame.add(statementPanel);
 		theFrame.add(inputPanel);
@@ -150,15 +150,14 @@ public class GP_Fahrkarte {
 		theFrame.setLocationRelativeTo(null);
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setVisible(true);
-		connect2JBoss();
-		
+
 		loginButton.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				kundeEinloggen();
 			}
 		});
-		
+
 		selectButton.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -172,27 +171,29 @@ public class GP_Fahrkarte {
 				fahrkarteAusgeben();
 			}
 		});
-		
-	}
-	
 
+	}
+
+
+	@SuppressWarnings("deprecation")
 	private static void kundeEinloggen() {
 		theFrame.setCursor(Cursor.WAIT_CURSOR);
 		Long kundeID = Long.valueOf(kundeIdTextField.getText());
 		System.out.println(kmanager);
-		
+
 		kundex = kmanager.findByPrimaryKey(kundeID);
 		kundeNachnameTextField.setText(kundex.getNachname());
 		kundeVornameTextField.setText(kundex.getVorname());		
 		statementLabel.setText("Bitte geben sie an welche Strecke sie fahren möchten!");
 		selectButton.setVisible(true);
 		theFrame.setCursor(Cursor.getDefaultCursor());
-		
+
 	}
+	@SuppressWarnings("deprecation")
 	public static void streckeAusgeben() {
 		theFrame.setCursor(Cursor.WAIT_CURSOR);
 		Long streckeID = Long.valueOf(streckeIdTextField.getText());
-		
+
 		try {
 			streckex = smanager.findByPrimaryKey(streckeID);
 			vonTextField.setText(streckex.getVon());
@@ -203,11 +204,12 @@ public class GP_Fahrkarte {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		theFrame.setCursor(Cursor.getDefaultCursor());
-		
+
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	private static void fahrkarteAusgeben(){
 		theFrame.setCursor(Cursor.WAIT_CURSOR);
 		if (streckex.getPlatz() > 0) {
@@ -216,12 +218,6 @@ public class GP_Fahrkarte {
 			Reservierung neueReservierung = new Reservierung();
 			neueReservierung.setStrecke(streckex);
 			rmanager.reservierungEinpflegen(neueReservierung);
-			
-//			Fahrschein fahrschein = new Fahrschein();
-//			fahrschein.setKunde(kundex);
-//			fahrschein.setStrecke(streckex);
-//			fmanager.saveFahrschein(fahrschein);
-//			fmanager.checkout();
 			rmanager.checkout();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 			smanager.checkout();
 			statusTextField.setText("Hier ihr Fahrschein!");
@@ -230,7 +226,7 @@ public class GP_Fahrkarte {
 		}
 		theFrame.setCursor(Cursor.getDefaultCursor());
 	}
-	
+
 	private static void connect2JBoss() {
 		try {
 			ctx = new InitialContext();
@@ -240,38 +236,10 @@ public class GP_Fahrkarte {
 					.lookup("FKAutomatBeans/StreckeManager!session.StreckeManagerInterface");
 			rmanager = (ReservierungManagerInterface) ctx
 					.lookup("FKAutomatBeans/ReservierungManager!session.ReservierungManagerInterface");
-			fmanager = (FahrscheinManagerInterface) ctx
-					.lookup("FKAutomatBeans/FahrscheinManager!session.FahrscheinManagerInterface");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-//	void doSomething() {
-//		try {
-//		
-			
-
-	
-			
-
-//			if (streckex.getPlatz() > 0) {
-//				System.out.println("Es sind noch " + streckex.getPlatz()
-//						+ " Plaetze verfuegbar");
-//				Reservierung neueReservierung = new Reservierung();
-//				neueReservierung.setStrecke(streckex);
-//				rmanager.reservierungEinpflegen(neueReservierung);
-//				rmanager.checkout();
-//				smanager.checkout();
-//			} else {
-//				System.out
-//						.println("Es tut uns leid es sind keine Plaetze verfuegbar");
-//			}
-//		} catch (NoSuchStrecke e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//	}
-
-//}
 }

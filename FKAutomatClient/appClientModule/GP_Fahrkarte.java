@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -37,8 +36,7 @@ public class GP_Fahrkarte {
 						.lookup("FKAutomatBeans/StreckeManager!session.StreckeManagerInterface");
 				ReservierungManagerInterface rmanager = (ReservierungManagerInterface) ctx
 						.lookup("FKAutomatBeans/ReservierungManager!session.ReservierungManagerInterface");
-				FahrscheinManagerInterface fmanager = (FahrscheinManagerInterface) ctx
-						.lookup("FKAutomatBeans/FahrscheinManager!session.FahrscheinManagerInterface");
+
 
 				System.out
 						.println("Bitte loggen sie sich mit ihrer Kundennummer ein!");
